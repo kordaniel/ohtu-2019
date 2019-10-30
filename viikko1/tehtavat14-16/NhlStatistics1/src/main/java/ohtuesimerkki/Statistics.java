@@ -10,8 +10,6 @@ public class Statistics {
     private List<Player> players;
 
     public Statistics(Reader reader) {
-        //PlayerReader reader = new PlayerReader("https://nhlstatisticsforohtu.herokuapp.com/players.txt");
-        //Reader readeri = reader;
         players = reader.getPlayers();       
     }
 
@@ -42,7 +40,12 @@ public class Statistics {
         ArrayList<Player> topScorers = new ArrayList<Player>();
         Iterator<Player> playerIterator = players.iterator();
         
-        while (howMany>=0) {
+        //this should probably return an list containing <howMany> players,
+        //ie. an list containing the amount of players passed as an argument
+        //and not <howmany>+1?
+        //=> bugfix
+        //while (howMany>=0) {
+        while (howMany>0) {
             topScorers.add( playerIterator.next() );            
             howMany--;
         }
