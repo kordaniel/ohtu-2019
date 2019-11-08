@@ -9,6 +9,10 @@ apply plugin: 'application'
 
 mainClassName = 'Main'
 
+run {
+    standardInput = System.in
+}
+
 jar {
     manifest {
         attributes 'Main-Class': 'Main'
