@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Varasto implements InterfaceVarasto {
 
+    /*
     private static Varasto instanssi;
 
     public static Varasto getInstance() {
@@ -13,13 +14,14 @@ public class Varasto implements InterfaceVarasto {
 
         return instanssi;
     }
-    
-    private Kirjanpito kirjanpito;
+    */
+    private InterfaceKirjanpito kirjanpito;
     private HashMap<Tuote, Integer> saldot;  
     
-    private Varasto() {
-        kirjanpito = Kirjanpito.getInstance();
-        saldot = new HashMap<Tuote, Integer>();
+    public Varasto(InterfaceKirjanpito kirjanpito) {
+        //kirjanpito = Kirjanpito.getInstance();
+        this.kirjanpito = kirjanpito;
+        this.saldot = new HashMap<Tuote, Integer>();
         alustaTuotteet();
     }
             

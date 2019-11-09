@@ -1,7 +1,7 @@
 package ohtu.verkkokauppa;
 
 public class Pankki implements InterfacePankki {
-
+    /*
     private static Pankki instanssi;
 
     public static Pankki getInstance() {
@@ -11,10 +11,12 @@ public class Pankki implements InterfacePankki {
 
         return instanssi;
     }
-    private Kirjanpito kirjanpito;
+    */
+    private InterfaceKirjanpito kirjanpito;
 
-    public Pankki() {
-        kirjanpito = Kirjanpito.getInstance();
+    public Pankki(InterfaceKirjanpito kirjanpito) {
+        //kirjanpito = Kirjanpito.getInstance();
+        this.kirjanpito = kirjanpito;
     }
 
     @Override

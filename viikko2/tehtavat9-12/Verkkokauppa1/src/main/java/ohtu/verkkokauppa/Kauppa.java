@@ -17,10 +17,6 @@ public class Kauppa {
         kaupanTili = "33333-44455";
     }
     
-    public Kauppa() {
-        this(Varasto.getInstance(), Pankki.getInstance(), Viitegeneraattori.getInstance());
-    }
-
     public void aloitaAsiointi() {
         ostoskori = new Ostoskori();
     }
