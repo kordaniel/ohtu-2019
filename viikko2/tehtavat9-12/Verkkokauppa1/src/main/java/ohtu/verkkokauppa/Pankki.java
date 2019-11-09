@@ -1,23 +1,21 @@
 package ohtu.verkkokauppa;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class Pankki implements InterfacePankki {
-    /*
-    private static Pankki instanssi;
-
-    public static Pankki getInstance() {
-        if (instanssi == null) {
-            instanssi = new Pankki();
-        }
-
-        return instanssi;
-    }
-    */
+    
+    @Autowired
     private InterfaceKirjanpito kirjanpito;
 
+    /* TURHA, vaikka on interface?
+     * näyttäisi olevan, jätetään nyt kuitenkin tähän
+    @Autowired
     public Pankki(InterfaceKirjanpito kirjanpito) {
-        //kirjanpito = Kirjanpito.getInstance();
         this.kirjanpito = kirjanpito;
     }
+    */
 
     @Override
     public boolean tilisiirto(String nimi, int viitenumero, String tililta, String tilille, int summa) {
