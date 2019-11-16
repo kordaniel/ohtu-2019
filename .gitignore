@@ -1,8 +1,10 @@
 # Ignore in all directories
 build/
+bin/
 .gradle/
 .gradle.properties
 .nb-gradle/
+.vscode/
 
 *.tmp
 *.swp
