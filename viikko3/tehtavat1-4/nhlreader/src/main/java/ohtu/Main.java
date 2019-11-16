@@ -27,7 +27,8 @@ public class Main {
         Gson mapper = new Gson();
         Player[] players = mapper.fromJson(bodyText, Player[].class);
         
-        printSortedPlayersFromCountry(players, "FIN");
+        String country = args.length == 1 ? args[0] : "FIN";
+        printSortedPlayersFromCountry(players, country);
         //System.out.println("Oliot:");
         //for (Player player : players) {
         //    if (player.getNationality().toLowerCase().equals("fin")) {
