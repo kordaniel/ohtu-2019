@@ -4,6 +4,7 @@ build/
 .gradle.properties
 .nb-gradle/
 
-.tmp
+*.tmp
+*.swp
 
 build
