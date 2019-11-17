@@ -40,6 +40,17 @@ public class AuthenticationService {
 
     private boolean invalid(String username, String password) {
         // validity check of username and password
+        if (username.length() < 3) {
+            return true;
+        }
+
+        //check that all characters are in the range [a-z]
+        for (int i = 0; i < username.length(); i++) {
+            int charval = username.charAt(i);
+            if (charval < 97 || charval > 122) {
+                return true;
+            }
+        }
 
         return false;
     }
