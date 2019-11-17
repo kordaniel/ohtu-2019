@@ -52,6 +52,10 @@ public class AuthenticationService {
             }
         }
 
+        if (password.length() < 8) {
+            return true;
+        }
+
         return false;
     }
 }
