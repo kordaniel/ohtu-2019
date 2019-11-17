@@ -30,8 +30,40 @@ public class AuthenticationService {
             status.addError("username is already taken");
         }
 
-        if (username.length()<3 ) {
+        if (username.length() < 3 ) {
             status.addError("username should have at least 3 characters");
+        }
+        
+        boolean usernameIsValid = true;
+        for (char c : username.toCharArray()) {
+            if (!Character.isLowerCase(c)) {
+                if (usernameIsValid) {
+                    status.addError("Username should consist of only lowercase letters.");
+                }
+                status.addError("Invalid character: " + c);
+                usernameIsValid = false;
+            }
+        }
+        
+
+        if (password.length() < 8) {
+            status.addError("password should have at least 8 characters");
+        }
+
+        boolean passwordIsValid = false;
+        for (char c : password.toCharArray()) {
+            if (!Character.isLetter(c)) {
+                passwordIsValid = true;
+                break;
+            }
+        }
+
+        if (!passwordIsValid) {
+            status.addError("password consists of only letters.");
+        }
+
+        if (!password.equals(passwordConfirmation)) {
+            status.addError("password and password confirmation do not match");
         }
 
         if (status.isOk()) {
