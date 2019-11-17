@@ -15,6 +15,25 @@ public class Stepdefs {
     //WebDriver driver = new ChromeDriver();
     WebDriver driver = new HtmlUnitDriver();
     String baseUrl = "http://localhost:4567";
+
+    @Given("user with username {string} with password {string} is successfully created")
+    public void validUserIsCreated(String username, String password) {
+        newUserIsSelected();
+        createUserWith(username, password);
+        aNewUserIsCreated();
+    }
+
+    @Given("user with username {string} and password {string} is tried to be created")
+    public void userWithUsernameAndPasswordIsTriedToBeCreated(String username, String password) {
+        newUserIsSelected();
+        createUserWith(username, password);
+        pageHasContent("Create username and give password");
+        pageHasContent("username should have at least 3 characters");
+        pageHasContent("password consists of only letters");
+        WebElement element = driver.findElement(By.linkText("back to home"));
+        element.click();
+        loginIsSelected();
+    }
     
     @Given("command new user is selected")
     public void newUserIsSelected() {
@@ -27,7 +46,7 @@ public class Stepdefs {
     public void validUsernameAndPasswordAreEntered(String username, String password) {
         createUserWith(username, password);
     }
-    
+
     @Then("a new user is created")
     public void aNewUserIsCreated() {
         pageHasContent("Welcome to Ohtu Application!");
@@ -128,7 +147,6 @@ public class Stepdefs {
 
     private void createUserWith(String username, String password, String confirmation) {
         pageHasContent("Create username and give password");
-        //assertTrue(driver.getPageSource().contains("Create username and give password"));
         WebElement element = driver.findElement(By.name("username"));
         element.sendKeys(username);
         element = driver.findElement(By.name("password"));
