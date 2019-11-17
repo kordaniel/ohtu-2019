@@ -19,3 +19,8 @@ Feature: A new user account can be created if a proper unused username and passw
         Given command new is selected
         When username "newuser" and password "abcd123" are entered
         Then system will respond with "new user not registered"
+    
+    Scenario: creation fails with valid username and password long enough but consisting of only letters
+        Given command new is selected
+        When username "newuser" and password "abcdefGh" are entered
+        Then system will respond with "new user not registered"

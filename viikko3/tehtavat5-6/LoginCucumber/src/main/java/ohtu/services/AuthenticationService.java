@@ -56,6 +56,18 @@ public class AuthenticationService {
             return true;
         }
 
-        return false;
+        //check that password contains characters outside of [aA-zZ]
+        for (int i = 0; i < password.length(); i++) {
+            int charval = password.charAt(i);
+            if (charval < 65 || charval > 122) {
+                return false;
+            }
+            //char is in the range [65-122]
+            if (charval > 90 && charval < 97) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
