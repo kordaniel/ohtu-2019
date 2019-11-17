@@ -50,4 +50,10 @@ public class Stepdefs {
         inputLines.add("new");
     }
 
+    @Given("user {string} with password {string} is created")
+    public void userWithPasswordIsCreated(String username, String password) throws Throwable {
+        commandNewSelected();
+        usernameAndPasswordAreEntered(username, password);
+    }
+
 }
