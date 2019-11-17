@@ -45,4 +45,9 @@ public class Stepdefs {
         assertTrue(io.getPrints().contains(expectedOutput));
     }    
 
+    @Given("^command new is selected")
+    public void commandNewSelected() throws Throwable {
+        inputLines.add("new");
+    }
+
 }
