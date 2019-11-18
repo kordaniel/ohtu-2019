@@ -9,10 +9,19 @@ public class Kassapaate {
     }
     
     public void lataa(Maksukortti kortti, int summa){
+        //oletetaan, etta 0 on positiivinen!
+        if (summa < 0) {
+            return;
+        }
+
         kortti.lataa(summa);
     }
     
     public void ostaLounas(Maksukortti kortti) {
+        if (kortti.getSaldo() < HINTA) {
+            return;
+        }
+
         kortti.osta(HINTA);
         myytyjaLounaita++;
     }
