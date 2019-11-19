@@ -162,4 +162,17 @@ public class KauppaTest {
         verify(pankki).tilisiirto(eq("paavo"), eq(56), eq("77777"), eq(kaupanTili), eq(15));
     }
     
+    @Test
+    public void tuotteenPoistaminenKoristaPalauttaaTuotteenVarastoon() {
+        when(varasto.saldo(1)).thenReturn(10);
+        
+        Kauppa k = new Kauppa(varasto, pankki, viite);
+
+        k.aloitaAsiointi();
+        k.lisaaKoriin(1);
+        k.poistaKorista(1);
+
+        verify(varasto, times(1)).palautaVarastoon(null);
+        
+    }
 }
