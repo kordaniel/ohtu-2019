@@ -112,24 +112,54 @@ public class KauppaTest {
 
         verify(pankki, times(1)).tilisiirto(eq("Pekka"), eq(123), eq("123"), eq(kaupanTili), eq(7));
     }
-    /****
-     * tilisiirto(String nimi, int viitenumero, String tililta, String tilille, int summa)
-    aloitetaan asiointi, koriin lisätään tuote, jota varastossa on ja suoritetaan ostos, 
-    eli kutsutaan metodia kaupan tilimaksu(), varmista että kutsutaan pankin metodia tilisiirto 
-    oikealla asiakkaalla, tilinumeroilla ja summalla
-    tämä siis on muuten copypaste esimerkistä, mutta verify:ssä on tarkastettava että 
-    parametreilla on oikeat arvot
 
-    aloitetaan asiointi, koriin lisätään kaksi eri tuotetta, joita varastossa on ja suoritetaan
-     ostos, varmista että kutsutaan pankin metodia tilisiirto oikealla asiakkaalla, 
-     tilinumerolla ja summalla
+    @Test
+    public void aloitaAsiointiNollaaOstokset() {
+        when(viite.uusi()).thenReturn(55);
 
-    aloitetaan asiointi, koriin lisätään kaksi samaa tuotetta, jota on varastossa tarpeeksi 
-    ja suoritetaan ostos, varmista että kutsutaan pankin metodia tilisiirto oikealla 
-    asiakkaalla, tilinumerolla ja summalla
+        when(varasto.saldo(1)).thenReturn(50);
+        when(varasto.haeTuote(1)).thenReturn(new Tuote(1, "pottuja", 2));
 
-    aloitetaan asiointi, koriin lisätään tuote, jota on varastossa tarpeeksi ja tuote joka on 
-    loppu ja suoritetaan ostos, varmista että kutsutaan pankin metodia tilisiirto oikealla 
-    asiakkaalla, tilinumerolla ja summalla
-    *****/
+        when(varasto.saldo(2)).thenReturn(25);
+        when(varasto.haeTuote(2)).thenReturn(new Tuote(2, "lihaa", 15));
+        
+        Kauppa k = new Kauppa(varasto, pankki, viite);
+        
+        k.aloitaAsiointi();
+        k.lisaaKoriin(1);
+
+        k.aloitaAsiointi();
+        k.lisaaKoriin(2);
+        k.tilimaksu("paavo", "77777");
+
+        verify(pankki).tilisiirto(eq("paavo"), eq(55), eq("77777"), eq(kaupanTili), eq(15));
+    }
+
+    @Test
+    public void kaksiAsiointiaLaskuttaaEriViitenumerolla() {
+        when(viite.uusi()).thenReturn(55).thenReturn(56);
+
+        when(varasto.saldo(1)).thenReturn(50);
+        when(varasto.haeTuote(1)).thenReturn(new Tuote(1, "pottuja", 2));
+
+        when(varasto.saldo(2)).thenReturn(25);
+        when(varasto.haeTuote(2)).thenReturn(new Tuote(2, "lihaa", 15));
+        
+        Kauppa k = new Kauppa(varasto, pankki, viite);
+        
+        k.aloitaAsiointi();
+        k.lisaaKoriin(1);
+        k.tilimaksu("pekka", "123123");
+
+        verify(viite, times(1)).uusi();
+        verify(pankki).tilisiirto(eq("pekka"), eq(55), eq("123123"), eq(kaupanTili), eq(2));
+
+        k.aloitaAsiointi();
+        k.lisaaKoriin(2);
+        k.tilimaksu("paavo", "77777");
+
+        verify(viite, times(2)).uusi();
+        verify(pankki).tilisiirto(eq("paavo"), eq(56), eq("77777"), eq(kaupanTili), eq(15));
+    }
+    
 }
