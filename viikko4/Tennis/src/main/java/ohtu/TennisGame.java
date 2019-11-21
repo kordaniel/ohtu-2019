@@ -1,80 +1,76 @@
 package ohtu;
 
 public class TennisGame {
-    
-    private int m_score1 = 0;
-    private int m_score2 = 0;
-    private String player1Name;
-    private String player2Name;
+
+    private final String[] POINTS_STRING_REPRESENTATIVE = {"Love", "Fifteen", "Thirty", "Forty"};
+    private final String player1Name;
+    private final String player2Name;
+    private int player1Points;
+    private int player2Points;
 
     public TennisGame(String player1Name, String player2Name) {
+        this.player1Points = 0;
+        this.player2Points = 0;
         this.player1Name = player1Name;
         this.player2Name = player2Name;
     }
 
     public void wonPoint(String playerName) {
-        if (playerName == "player1")
-            m_score1 += 1;
-        else
-            m_score2 += 1;
+        if (playerName.equals(player1Name)) {
+            player1Points++;
+        } else {
+            player2Points++;
+        }
     }
 
     public String getScore() {
-        String score = "";
-        int tempScore=0;
-        if (m_score1==m_score2)
-        {
-            switch (m_score1)
-            {
-                case 0:
-                        score = "Love-All";
-                    break;
-                case 1:
-                        score = "Fifteen-All";
-                    break;
-                case 2:
-                        score = "Thirty-All";
-                    break;
-                case 3:
-                        score = "Forty-All";
-                    break;
-                default:
-                        score = "Deuce";
-                    break;
-                
+        if (playersHaveEvenPoints()) {
+            return evenScoreRepresentation();
+        }
+
+        if (player1Points < 4 && player2Points < 4) {
+            return bothPlayersHaveUnderFourPointsRepresentation();
+        }
+        
+        if (gameIsWon()) {
+            if (playerOneHasMorePoints()) {
+                return "Win for " + player1Name;
             }
+            return "Win for " + player2Name;
         }
-        else if (m_score1>=4 || m_score2>=4)
-        {
-            int minusResult = m_score1-m_score2;
-            if (minusResult==1) score ="Advantage player1";
-            else if (minusResult ==-1) score ="Advantage player2";
-            else if (minusResult>=2) score = "Win for player1";
-            else score ="Win for player2";
+        
+        if (playerOneHasMorePoints()) {
+            return "Advantage " + player1Name;
         }
-        else
-        {
-            for (int i=1; i<3; i++)
-            {
-                if (i==1) tempScore = m_score1;
-                else { score+="-"; tempScore = m_score2;}
-                switch(tempScore)
-                {
-                    case 0:
-                        score+="Love";
-                        break;
-                    case 1:
-                        score+="Fifteen";
-                        break;
-                    case 2:
-                        score+="Thirty";
-                        break;
-                    case 3:
-                        score+="Forty";
-                        break;
-                }
-            }
-        }
-        return score;
+        
+        return "Advantage " + player2Name;
     }
+    
+    public boolean gameIsWon() {
+        return Math.abs(player1Points - player2Points) > 1;
+    }
+    
+    private boolean playersHaveEvenPoints() {
+        return pointDifference() == 0;
+    }
+    
+    private int pointDifference() {
+        return player1Points - player2Points;
+    }
+
+    private boolean playerOneHasMorePoints() {
+        return pointDifference() > 0;
+    }
+    
+    private String bothPlayersHaveUnderFourPointsRepresentation() {
+        return POINTS_STRING_REPRESENTATIVE[player1Points] + "-"
+                + POINTS_STRING_REPRESENTATIVE[player2Points];
+    }
+    
+    private String evenScoreRepresentation() {
+        return player1Points < 4 
+                ? POINTS_STRING_REPRESENTATIVE[player1Points] + "-All"
+                : "Deuce";
+    }
+
 }
