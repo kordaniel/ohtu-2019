@@ -47,7 +47,7 @@ public class TennisGame {
     }
     
     public boolean gameIsWon() {
-        return Math.abs(player1Points - player2Points) > 1;
+        return Math.abs(pointDifference()) > 1;
     }
     
     private boolean playersHaveEvenPoints() {
