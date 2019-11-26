@@ -1,2 +1,3 @@
 eka muutos eka rivi
 toka muutos toka rivi
+KOLMAS muutos KOLMANNELLE riville
