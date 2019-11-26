@@ -29,7 +29,10 @@ public class Tapahtumankuuntelija implements EventHandler {
             Komento komento = komennot.get((Button) event.getTarget());
             komento.suorita();
             edellinen = komento;
-        } else {
+        } else if (edellinen != null) {
+            //the variable edellinen should actually never be null if the first
+            //if-statement fails, might be good to check anyways,
+            //especially considering future development.
             edellinen.peru();
             edellinen = null;
         }
