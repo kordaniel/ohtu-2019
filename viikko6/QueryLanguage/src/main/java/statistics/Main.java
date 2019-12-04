@@ -22,16 +22,35 @@ public class Main {
                 new PlaysIn("NYR")
         );
         */
-        
+        /*
         Matcher m = new And(
                 new HasFewerThan(1, "goals"),
                 new PlaysIn("NYR")
-        );
+        );*/
         /*
         Matcher m = new All();
         System.out.println(stats.matches(m).size());
         */
-        
+        /*
+        Matcher m = new Or(
+                new HasAtLeast(20, "goals"),
+                new HasAtLeast(20, "assists")
+        );
+        */
+        /*
+        Matcher m = new Not(new Or(
+                new HasAtLeast(20, "goals"),
+                new HasAtLeast(20, "assists")
+        ));
+        */
+        Matcher m = new And(
+                new HasAtLeast(20, "points"),
+                new Or(
+                    new PlaysIn("NYR"),
+                    new PlaysIn("NYI"),
+                    new PlaysIn(("NJD"))
+                )
+        );
         
         for (Player player : stats.matches(m)) {
             System.out.println(player);
