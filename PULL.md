@@ -1,1 +1,1 @@
-(https://github.com/Ohjelmistotuotanto-DoD/vinkr/pull/64)
+https://github.com/Ohjelmistotuotanto-DoD/vinkr/pull/64
