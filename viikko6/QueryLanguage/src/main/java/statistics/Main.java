@@ -7,7 +7,7 @@ public class Main {
         // seuraavassa osoitteessa 27.11.2019 päivitetyt tilastot
         String url = "https://nhl27112019.herokuapp.com/players.txt";
         // ajan tasalla olevat tilastot osoitteessa
-        // "https://nhlstatisticsforohtu.herokuapp.com/players.txt"
+        //String url = "https://nhlstatisticsforohtu.herokuapp.com/players.txt";
 
         Statistics stats = new Statistics(new PlayerReaderImpl(url));
         
@@ -54,16 +54,49 @@ public class Main {
         );*/
         
         QueryBuilder query = new QueryBuilder();
+        /*
         Matcher m = query.playsIn("NYR")
                          .hasAtLeast(5, "goals")
                          .hasFewerThan(10, "goals")
                          .build();
+        */
+        /*
+        Matcher m1 = query.playsIn("PHI")
+                          .hasAtLeast(10, "assists")
+                          .hasFewerThan(8, "goals")
+                          .build();
         
+        Matcher m2 = query.playsIn("EDM")
+                          .hasAtLeast(20, "points")
+                          .build();
         
+        Matcher m = query.oneOf(m1, m2).build();
+        */
+        Matcher m = query.oneOf(
+                query.playsIn("PHI")
+                    .hasAtLeast(10, "assists")
+                    .hasFewerThan(8, "goals").build(),
+                
+                query.playsIn("EDM")
+                    .hasAtLeast(20, "points").build()
+        ).build();
+        /*
+        Matcher m = query.oneOf(
+                query.playsIn("PHI")
+                    .hasAtLeast(10, "assists")
+                    .hasFewerThan(8, "goals").build(),
+                
+                query.playsIn("EDM")
+                    .hasAtLeast(20, "points").build(),
+                
+                query.playsIn("NYR")
+                    .hasAtLeast(10, "goals").build()
+        ).build();
+        */
         
-        for (Player player : stats.matches(m)) {
+        stats.matches(m).forEach((player) -> {
             System.out.println(player);
-        }
-        System.out.println(stats.matches(m).size());
+        });
+        
     }
 }
