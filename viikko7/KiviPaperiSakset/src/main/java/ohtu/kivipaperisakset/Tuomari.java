@@ -2,52 +2,42 @@ package ohtu.kivipaperisakset;
 
 // Tuomari pitää kirjaa ensimmäisen ja toisen pelaajan pisteistä sekä tasapelien määrästä.
 public class Tuomari {
-
-    private int ekanPisteet;
-    private int tokanPisteet;
-    private int tasapelit;
-
+    
+    //indeksi 0: tasapelit
+    //indeksi 1: pelaaja1 voitot
+    //indeksi 2: pelaaja2 voitot
+    private int[] pistelasku;
+    
     public Tuomari() {
-        this.ekanPisteet = 0;
-        this.tokanPisteet = 0;
-        this.tasapelit = 0;
+        this.pistelasku = new int[3];
     }
 
     public void kirjaaSiirto(String ekanSiirto, String tokanSiirto) {
-        if (tasapeli(ekanSiirto, tokanSiirto)) {
-            tasapelit++;
-        } else if (ekaVoittaa(ekanSiirto, tokanSiirto)) {
-            ekanPisteet++;
-        } else {
-            tokanPisteet++;
-        }
+        int pelinTulos = laskeKierroksenTulos(ekanSiirto.charAt(0),
+                                                tokanSiirto.charAt(0));
+        pistelasku[pelinTulos]++;
     }
 
-    // sisäinen metodi, jolla tarkastetaan tuliko tasapeli
-    private static boolean tasapeli(String eka, String toka) {
-        if (eka.equals(toka)) {
-            return true;
+    private int laskeKierroksenTulos(char ekanSiirto, char tokanSiirto) {
+        char[] komennot = KiviPaperSakset.TUETUT_KOMENNOT;
+        int p1Tulos = -1;
+        int p2Tulos = -1;
+        
+        for (int i = 0; i < komennot.length; i++) {
+            if (ekanSiirto == komennot[i]) {
+                p1Tulos = i;
+            }
+            if (tokanSiirto == komennot[i]) {
+                p2Tulos = i;
+            }
         }
-
-        return false;
-    }
-
-    // sisäinen metodi joka tarkastaa voittaako eka pelaaja tokan
-    private static boolean ekaVoittaa(String eka, String toka) {
-        if ("k".equals(eka) && "s".equals(toka)) {
-            return true;
-        } else if ("s".equals(eka) && "p".equals(toka)) {
-            return true;
-        } else if ("p".equals(eka) && "k".equals(toka)) {
-            return true;
-        }
-
-        return false;
+        
+        return (p1Tulos - p2Tulos + komennot.length) % komennot.length;
     }
 
     public String toString() {
-        String s = "Pelitilanne: " + ekanPisteet + " - " + tokanPisteet + "\n"
-                + "Tasapelit: " + tasapelit;
+        String s = "Pelitilanne: " + pistelasku[1] + " - " + pistelasku[2] + "\n"
+                + "Tasapelit: " + pistelasku[0];
         return s;
     }
 }
